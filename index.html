@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Hello World</title>
+    </head>
+    <body>
+        <h1 id="title">Hello World</h1>
+        <hr>
+            <p>Isikan pesan dibawah ini untuk mengganti judul.</p>
+            <input id="message-input" type="text">
+            <button id="send">Kirim</button>
+
+        <!-- jQuery -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+        <!-- page script -->
+        <script>
+            $(document).ready(() => {
+                axios.get('http://localhost:7200')
+                    .then((response) => {
+                        let data = response.data
+                        $('#title').text(data.message)
+                    })
+            })
+
+            $('button#send').on('click', () => {
+                let messageInputValue = $('input#message-input').val()
+                axios.post('http://localhost:7200', {
+                    message: messageInputValue
+                }).then((response) => {
+                    let data = response.data
+                    $('#title').text(data.message)
+                })
+            })
+        </script>
+    </body>
+</html>
